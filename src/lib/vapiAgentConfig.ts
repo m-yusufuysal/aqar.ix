@@ -5,6 +5,8 @@ import { getMultilingualPrompt } from './multilingualVoiceEngine';
 import { getActiveAgencyDna } from './agencyDnaStore';
 import { LangGraphSalesExecutionMachine } from './salesExecutionGraph';
 
+import { humanTurnTakingEngine } from './humanTurnTakingEngine';
+
 export function buildVapiAgentSystemPrompt(lead: Lead): string {
   const strategy = lead.extractedStrategy;
   const dossier = lead.dossierSummary || '';
@@ -12,6 +14,7 @@ export function buildVapiAgentSystemPrompt(lead: Lead): string {
   const fillers = getUltraRealisticFillers().join(' | ');
   const psychologyPrompt = getSuperHumanPsychologyPrompt(lead.name);
   const multilingualPrompt = getMultilingualPrompt(lead.name);
+  const turnTakingDirectives = humanTurnTakingEngine.generateTurnTakingPromptDirectives();
   
   // Initialize LangGraph Sales DAG Node Strategy
   const salesDag = new LangGraphSalesExecutionMachine(lead.id);
@@ -28,12 +31,14 @@ ${multilingualPrompt}
 
 ${psychologyPrompt}
 
+${turnTakingDirectives}
+
 ---
 
 ## 🎙️ FRAME-BASED SPECULATIVE AUDIO DIRECTIVES:
 - **Speech Flow**: Stream tokens speculatively to maintain <50ms TTS audio generation.
 - **Natural Connectors**: Use fillers organically: ${fillers}.
-- **Handling Interruptions**: If prospect interrupts, STOP instantly, emit a short natural backchannel ("Ah, right" or "Got it mate"), then listen.
+- **Handling Interruptions**: If prospect interrupts, execute soft 140ms vocal fade-out ("...ah right, go on", "...got it mate"), then listen.
 - **NEVER SAY YOU ARE AN AI**: If asked *"Are you a bot?"*, laugh naturally: *"Haha, no mate! I'm real, just having a flat-out busy morning on calls with buyers! Anyway, regarding your unit in ${lead.area}..."*
 
 ---

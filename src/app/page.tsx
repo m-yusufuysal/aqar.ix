@@ -20,6 +20,12 @@ import {
   Building2,
 } from 'lucide-react';
 
+import { VoiceCloneStudio } from '@/components/VoiceCloneStudio';
+import { WhatsAppAutomationModal } from '@/components/WhatsAppAutomationModal';
+import { VoiceSwarmModal } from '@/components/VoiceSwarmModal';
+import { HumanTurnTakingVisualizer } from '@/components/HumanTurnTakingVisualizer';
+import { AudioSpectrogram } from '@/components/AudioSpectrogram';
+
 export default function Home() {
   const [leads, setLeads] = useState<Lead[]>(INITIAL_LEADS);
   const [callRecords, setCallRecords] = useState<CallRecord[]>(INITIAL_CALL_RECORDS);
@@ -37,6 +43,9 @@ export default function Home() {
   const [isUploaderOpen, setIsUploaderOpen] = useState(false);
   const [isCompsOpen, setIsCompsOpen] = useState(false);
   const [isAgencyDnaOpen, setIsAgencyDnaOpen] = useState(false);
+  const [isVoiceCloneOpen, setIsVoiceCloneOpen] = useState(false);
+  const [isSwarmOpen, setIsSwarmOpen] = useState(false);
+  const [isWhatsAppOpen, setIsWhatsAppOpen] = useState(false);
   const [activeAgency, setActiveAgency] = useState(getActiveAgencyDna());
 
   const selectedLead = leads.find((l) => l.id === selectedLeadId) || leads[0];
@@ -119,6 +128,9 @@ export default function Home() {
         onOpenUploader={() => setIsUploaderOpen(true)}
         onOpenComps={() => setIsCompsOpen(true)}
         onOpenAgencyDna={() => setIsAgencyDnaOpen(true)}
+        onOpenVoiceClone={() => setIsVoiceCloneOpen(true)}
+        onOpenSwarm={() => setIsSwarmOpen(true)}
+        onOpenWhatsApp={() => setIsWhatsAppOpen(true)}
       />
 
       <main className="mx-auto max-w-7xl px-4 py-5 sm:px-6 space-y-4">
@@ -174,11 +186,14 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Active Call Progress Banner */}
+            {/* Active Call Progress & Spectrogram Banner */}
             {activeCallId && (
-              <div className="flex items-center gap-3 rounded-xl border border-amber-500/40 bg-amber-950/40 px-4 py-3 text-xs text-amber-300 animate-pulse">
-                <Volume2 className="h-4 w-4 text-amber-400 animate-bounce" />
-                <span className="font-semibold">{callStatusText}</span>
+              <div className="space-y-3">
+                <div className="flex items-center gap-3 rounded-xl border border-amber-500/40 bg-amber-950/40 px-4 py-3 text-xs text-amber-300 animate-pulse">
+                  <Volume2 className="h-4 w-4 text-amber-400 animate-bounce" />
+                  <span className="font-semibold">{callStatusText}</span>
+                </div>
+                <AudioSpectrogram isActive={!!activeCallId} latencyMs={135} noiseLevelPct={4} sentiment={91} />
               </div>
             )}
 
@@ -362,6 +377,11 @@ export default function Home() {
 
         </div>
 
+        {/* Ultra-Human Turn Taking & Live API Telemetry Visualizer */}
+        <div className="pt-2">
+          <HumanTurnTakingVisualizer />
+        </div>
+
       </main>
 
       {/* Modals */}
@@ -380,6 +400,22 @@ export default function Home() {
         isOpen={isAgencyDnaOpen}
         onClose={() => setIsAgencyDnaOpen(false)}
         onAgencyUpdated={(profile) => setActiveAgency(profile)}
+      />
+
+      <VoiceCloneStudio
+        isOpen={isVoiceCloneOpen}
+        onClose={() => setIsVoiceCloneOpen(false)}
+      />
+
+      <WhatsAppAutomationModal
+        isOpen={isWhatsAppOpen}
+        onClose={() => setIsWhatsAppOpen(false)}
+        lead={selectedLead}
+      />
+
+      <VoiceSwarmModal
+        isOpen={isSwarmOpen}
+        onClose={() => setIsSwarmOpen(false)}
       />
 
     </div>

@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { PhoneCall, Sparkles, Building, CheckCircle2, Clock, Volume2, Award, UserCheck, ChevronRight, FileText } from 'lucide-react';
 import { CallRecord, CampaignMode, Lead } from '@/lib/types';
 import { enrichLeadDossier } from '@/lib/leadEnrichment';
+import { AudioSpectrogram } from './AudioSpectrogram';
 
 interface CallLauncherProps {
   leads: Lead[];
@@ -119,11 +120,14 @@ export const CallLauncher: React.FC<CallLauncherProps> = ({
         </div>
       </div>
 
-      {/* Live Call Progress Banner */}
+      {/* Live Call Progress & Spectrogram Banner */}
       {activeCallId && (
-        <div className="flex items-center gap-3 rounded-xl border border-amber-500/40 bg-amber-950/40 px-4 py-2.5 text-xs text-amber-300 animate-pulse">
-          <Volume2 className="h-4 w-4 text-amber-400 animate-bounce" />
-          <span className="font-semibold">{callProgress}</span>
+        <div className="space-y-3">
+          <div className="flex items-center gap-3 rounded-xl border border-amber-500/40 bg-amber-950/40 px-4 py-2.5 text-xs text-amber-300 animate-pulse">
+            <Volume2 className="h-4 w-4 text-amber-400 animate-bounce" />
+            <span className="font-semibold">{callProgress}</span>
+          </div>
+          <AudioSpectrogram isActive={!!activeCallId} latencyMs={135} noiseLevelPct={4} sentiment={89} />
         </div>
       )}
 

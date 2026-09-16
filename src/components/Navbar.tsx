@@ -7,9 +7,19 @@ interface NavbarProps {
   onOpenUploader: () => void;
   onOpenComps: () => void;
   onOpenAgencyDna: () => void;
+  onOpenVoiceClone?: () => void;
+  onOpenSwarm?: () => void;
+  onOpenWhatsApp?: () => void;
 }
 
-export const Navbar: React.FC<NavbarProps> = ({ onOpenUploader, onOpenComps, onOpenAgencyDna }) => {
+export const Navbar: React.FC<NavbarProps> = ({
+  onOpenUploader,
+  onOpenComps,
+  onOpenAgencyDna,
+  onOpenVoiceClone,
+  onOpenSwarm,
+  onOpenWhatsApp,
+}) => {
   const [dubaiTime, setDubaiTime] = useState<string>('');
 
   useEffect(() => {
@@ -45,10 +55,10 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenUploader, onOpenComps, onO
                 AQARIX <span className="bg-gradient-to-r from-indigo-400 to-emerald-400 bg-clip-text text-transparent">AI</span>
               </h1>
               <span className="rounded-full bg-indigo-500/10 border border-indigo-500/30 px-2.5 py-0.5 text-[10px] font-bold text-indigo-300 tracking-wider uppercase">
-                B2B ENTERPRISE PLATFORM
+                SUPER-BROKER 2026
               </span>
             </div>
-            <p className="text-xs text-slate-400">Dubai Real Estate Cold Call & Pipeline Engine</p>
+            <p className="text-xs text-slate-400">Dubai Real Estate Cold Call & Swarm Engine</p>
           </div>
         </div>
 
@@ -66,29 +76,48 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenUploader, onOpenComps, onO
         </div>
 
         {/* Action Buttons */}
-        <div className="flex items-center gap-2 sm:gap-3">
+        <div className="flex items-center gap-2 sm:gap-2.5">
+          {onOpenVoiceClone && (
+            <button
+              onClick={onOpenVoiceClone}
+              className="flex items-center gap-1.5 rounded-xl border border-indigo-500/40 bg-indigo-950/40 px-3 py-2 text-xs font-bold text-indigo-300 hover:bg-indigo-900/60 transition-all"
+            >
+              🎙️ Voice Clone
+            </button>
+          )}
+
+          {onOpenSwarm && (
+            <button
+              onClick={onOpenSwarm}
+              className="flex items-center gap-1.5 rounded-xl border border-purple-500/40 bg-purple-950/40 px-3 py-2 text-xs font-bold text-purple-300 hover:bg-purple-900/60 transition-all"
+            >
+              🐝 Voice Swarm
+            </button>
+          )}
+
+          {onOpenWhatsApp && (
+            <button
+              onClick={onOpenWhatsApp}
+              className="flex items-center gap-1.5 rounded-xl border border-emerald-500/40 bg-emerald-950/40 px-3 py-2 text-xs font-bold text-emerald-300 hover:bg-emerald-900/60 transition-all"
+            >
+              💬 WhatsApp
+            </button>
+          )}
+
           <button
             onClick={onOpenAgencyDna}
-            className="flex items-center gap-2 rounded-xl border border-indigo-500/30 bg-indigo-500/10 px-3.5 py-2 text-xs font-bold text-indigo-300 hover:border-indigo-500 hover:bg-indigo-500/20 transition-all shadow-sm"
+            className="hidden sm:flex items-center gap-1.5 rounded-xl border border-slate-700 bg-slate-800/80 px-3 py-2 text-xs font-bold text-slate-200 hover:border-indigo-500 transition-all"
           >
             <Building2 className="h-3.5 w-3.5 text-indigo-400" />
             Agency DNA
           </button>
 
           <button
-            onClick={onOpenComps}
-            className="flex items-center gap-2 rounded-xl border border-white/10 bg-slate-800/80 px-3.5 py-2 text-xs font-bold text-slate-200 hover:border-emerald-500 hover:text-white transition-all shadow-sm"
-          >
-            <Globe className="h-3.5 w-3.5 text-emerald-400" />
-            Comps RAG
-          </button>
-
-          <button
             onClick={onOpenUploader}
-            className="flex items-center gap-2 rounded-xl bg-gradient-to-r from-indigo-500 to-emerald-500 px-4 py-2 text-xs font-extrabold text-white shadow-lg fable-indigo-glow hover:from-indigo-400 hover:to-emerald-400 transition-all active:scale-95"
+            className="flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-indigo-500 to-emerald-500 px-3.5 py-2 text-xs font-extrabold text-white shadow-lg fable-indigo-glow hover:from-indigo-400 hover:to-emerald-400 transition-all active:scale-95"
           >
             <Plus className="h-4 w-4 stroke-[3]" />
-            Add Lead / Docs
+            Add Lead
           </button>
         </div>
 

@@ -108,3 +108,42 @@ export interface SystemMetrics {
   conversionRate: number;
   activeCampaigns: number;
 }
+
+export interface WhatsAppMessage {
+  id: string;
+  leadId: string;
+  leadPhone: string;
+  direction: 'outbound' | 'inbound';
+  messageType: 'text' | 'interactive_button' | 'brochure_pdf' | 'eoi_payment_link' | 'form_a_listing_contract';
+  content: string;
+  mediaUrl?: string;
+  actionUrl?: string;
+  timestamp: string;
+  status: 'sent' | 'delivered' | 'read' | 'replied' | 'converted';
+}
+
+export interface VoiceSwarmAgent {
+  id: string;
+  name: string;
+  role: 'Primary DIFC Hunter' | 'Senior Off-Plan Escrow Director' | 'DLD Legal & Golden Visa Specialist' | 'Human Broker Desk';
+  sipUri: string;
+  voiceModel: string;
+  latencyMs: number;
+  activeSessions: number;
+  expertiseAreas: string[];
+}
+
+export interface VoicePersona {
+  id: string;
+  name: string;
+  language: 'Dubai English' | 'Khaleeji Arabic' | 'Bilingual Switch';
+  gender: 'male' | 'female';
+  sampleAudioUrl?: string;
+  clonedFromSample: boolean;
+  accentNote: string;
+  cartesiaVoiceId: string;
+  pitchShift: number;
+  speed: number;
+  createdAt: string;
+}
+
