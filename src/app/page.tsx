@@ -26,6 +26,9 @@ import { VoiceSwarmModal } from '@/components/VoiceSwarmModal';
 import { HumanTurnTakingVisualizer } from '@/components/HumanTurnTakingVisualizer';
 import { AudioSpectrogram } from '@/components/AudioSpectrogram';
 
+import { GatekeeperVerificationModal } from '@/components/GatekeeperVerificationModal';
+import { RealAgentDispatchModal } from '@/components/RealAgentDispatchModal';
+
 export default function Home() {
   const [leads, setLeads] = useState<Lead[]>(INITIAL_LEADS);
   const [callRecords, setCallRecords] = useState<CallRecord[]>(INITIAL_CALL_RECORDS);
@@ -46,6 +49,8 @@ export default function Home() {
   const [isVoiceCloneOpen, setIsVoiceCloneOpen] = useState(false);
   const [isSwarmOpen, setIsSwarmOpen] = useState(false);
   const [isWhatsAppOpen, setIsWhatsAppOpen] = useState(false);
+  const [isGatekeeperOpen, setIsGatekeeperOpen] = useState(false);
+  const [isAgentDispatchOpen, setIsAgentDispatchOpen] = useState(false);
   const [activeAgency, setActiveAgency] = useState(getActiveAgencyDna());
 
   const selectedLead = leads.find((l) => l.id === selectedLeadId) || leads[0];
@@ -131,6 +136,8 @@ export default function Home() {
         onOpenVoiceClone={() => setIsVoiceCloneOpen(true)}
         onOpenSwarm={() => setIsSwarmOpen(true)}
         onOpenWhatsApp={() => setIsWhatsAppOpen(true)}
+        onOpenGatekeeper={() => setIsGatekeeperOpen(true)}
+        onOpenAgentDispatch={() => setIsAgentDispatchOpen(true)}
       />
 
       <main className="mx-auto max-w-7xl px-4 py-5 sm:px-6 space-y-4">
@@ -416,6 +423,19 @@ export default function Home() {
       <VoiceSwarmModal
         isOpen={isSwarmOpen}
         onClose={() => setIsSwarmOpen(false)}
+      />
+
+      <GatekeeperVerificationModal
+        isOpen={isGatekeeperOpen}
+        onClose={() => setIsGatekeeperOpen(false)}
+        lead={selectedLead}
+      />
+
+      <RealAgentDispatchModal
+        isOpen={isAgentDispatchOpen}
+        onClose={() => setIsAgentDispatchOpen(false)}
+        lead={selectedLead}
+        callRecord={selectedCallRecord}
       />
 
     </div>

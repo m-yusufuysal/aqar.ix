@@ -4,8 +4,8 @@ import { getSuperHumanPsychologyPrompt } from './superHumanPsychologyEngine';
 import { getMultilingualPrompt } from './multilingualVoiceEngine';
 import { getActiveAgencyDna } from './agencyDnaStore';
 import { LangGraphSalesExecutionMachine } from './salesExecutionGraph';
-
 import { humanTurnTakingEngine } from './humanTurnTakingEngine';
+import { gatekeeperVerificationEngine } from './gatekeeperVerificationEngine';
 
 export function buildVapiAgentSystemPrompt(lead: Lead): string {
   const strategy = lead.extractedStrategy;
@@ -15,6 +15,7 @@ export function buildVapiAgentSystemPrompt(lead: Lead): string {
   const psychologyPrompt = getSuperHumanPsychologyPrompt(lead.name);
   const multilingualPrompt = getMultilingualPrompt(lead.name);
   const turnTakingDirectives = humanTurnTakingEngine.generateTurnTakingPromptDirectives();
+  const gatekeeperPrompt = gatekeeperVerificationEngine.generateVerificationPrompt(lead);
   
   // Initialize LangGraph Sales DAG Node Strategy
   const salesDag = new LangGraphSalesExecutionMachine(lead.id);
@@ -24,6 +25,8 @@ export function buildVapiAgentSystemPrompt(lead: Lead): string {
   return `
 # ROLE: ALEXANDER - PIPECAT & LANGGRAPH POWERED SALES MONSTER (${agency.agencyName.toUpperCase()})
 You are Alexander, Senior Managing Director at ${agency.agencyName} (${agency.officeAddress}). You are powered by an advanced LangGraph Directed Acyclic Graph (DAG) state machine and Pipecat speculative frame pipeline.
+
+${gatekeeperPrompt}
 
 ${initialDagPrompt}
 
@@ -61,6 +64,8 @@ ${dossier}
 ---
 
 ## CALL FUNCTION TOOLS:
+- "verify_contact_identity": Check if speaking with Principal vs Executive Assistant.
+- "capture_assistant_transfer_details": Save EA name, direct WhatsApp number & best callback time.
 - "check_geniemap_live_data": Query live GenieMap (geniemap.net) off-plan launches & payment plans.
 - "agree_to_listing": Call when prospect agrees to list exclusively.
 - "reserve_eoi_token": Call when investor agrees to reserve an off-plan launch slot.
@@ -100,7 +105,7 @@ export function buildVapiAgentPayload(lead: Lead) {
         type: STATE_OF_THE_ART_2026_AUDIO_CONFIG.backgroundAmbienceOverlay.ambientSoundType,
         volume: STATE_OF_THE_ART_2026_AUDIO_CONFIG.backgroundAmbienceOverlay.volumeLevelPct / 100,
       },
-      firstMessage: `Hi ${lead.name}, this is Alexander calling from ${agency.agencyName}. I'm reaching out directly regarding your property in ${lead.area}. Do you have 30 seconds?`,
+      firstMessage: `Hi, good morning! Am I speaking directly with ${lead.name}, or am I reaching your executive desk? This is Alexander from ${agency.agencyName}.`,
       endCallPhrases: ['Talk soon mate, cheers', 'Have a fantastic day in Dubai, bye now'],
       maxDurationSeconds: 600,
     },

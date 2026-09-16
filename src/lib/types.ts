@@ -11,11 +11,16 @@ export type LeadStatus =
 
 export type CampaignMode = 'secondary_listing_hunter' | 'offplan_investor_closer';
 
+export type ContactRole = 'principal_investor' | 'executive_assistant' | 'family_office' | 'unverified';
+
 export interface Lead {
   id: string;
   name: string;
   phone: string;
   email?: string;
+  contactRole?: ContactRole;
+  principalName?: string; // If answered by EA, who is the principal investor
+  directLine?: string;    // Direct WhatsApp/mobile line provided by EA
   area: string; // e.g., Downtown Dubai, Dubai Marina, JVC, Dubai South
   buildingName?: string;
   propertyType: 'Apartment' | 'Villa' | 'Townhouse' | 'Penthouse';

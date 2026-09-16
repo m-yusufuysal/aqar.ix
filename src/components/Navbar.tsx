@@ -10,6 +10,8 @@ interface NavbarProps {
   onOpenVoiceClone?: () => void;
   onOpenSwarm?: () => void;
   onOpenWhatsApp?: () => void;
+  onOpenGatekeeper?: () => void;
+  onOpenAgentDispatch?: () => void;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({
@@ -19,6 +21,8 @@ export const Navbar: React.FC<NavbarProps> = ({
   onOpenVoiceClone,
   onOpenSwarm,
   onOpenWhatsApp,
+  onOpenGatekeeper,
+  onOpenAgentDispatch,
 }) => {
   const [dubaiTime, setDubaiTime] = useState<string>('');
 
@@ -101,6 +105,24 @@ export const Navbar: React.FC<NavbarProps> = ({
               className="flex items-center gap-1.5 rounded-xl border border-emerald-500/40 bg-emerald-950/40 px-3 py-2 text-xs font-bold text-emerald-300 hover:bg-emerald-900/60 transition-all"
             >
               💬 WhatsApp
+            </button>
+          )}
+
+          {onOpenGatekeeper && (
+            <button
+              onClick={onOpenGatekeeper}
+              className="flex items-center gap-1.5 rounded-xl border border-amber-500/40 bg-amber-950/40 px-3 py-2 text-xs font-bold text-amber-300 hover:bg-amber-900/60 transition-all"
+            >
+              🛡️ EA Gatekeeper
+            </button>
+          )}
+
+          {onOpenAgentDispatch && (
+            <button
+              onClick={onOpenAgentDispatch}
+              className="flex items-center gap-1.5 rounded-xl border border-emerald-500/40 bg-emerald-950/40 px-3 py-2 text-xs font-bold text-emerald-300 hover:bg-emerald-900/60 transition-all shadow-md"
+            >
+              📲 Agent WhatsApp Briefs
             </button>
           )}
 
